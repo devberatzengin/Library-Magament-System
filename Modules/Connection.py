@@ -64,3 +64,4 @@ class Connection:
         except Exception as e:
             print(f"❌ Query error: {e}")
             return None
+t
