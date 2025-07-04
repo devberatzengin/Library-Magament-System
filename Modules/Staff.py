@@ -6,9 +6,14 @@ class Staff(User):
 
     def __init__(self):
         super().__init__()
-        self.__staff_id = None
-        self.__department = None
-
+        
+    def get_id (self):
+        if self.user_id is not None:
+            return self.user_id
+        else:
+            print("ℹ️ User ID is not set.")
+            return None
+    
     def get_staff_details(self):
         return {
             "username": self._User__username,

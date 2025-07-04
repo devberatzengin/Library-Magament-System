@@ -1,4 +1,5 @@
 import pyodbc
+from Modules.Log import log_error
 
 class Connection:
     
@@ -47,11 +48,11 @@ class Connection:
             print(f"❌ Info error: {e}")
             return None, None
 
-    def execute_query(self, query, params=None):
+    def execute_query(self, query, params=None, source="execute_query"):
         try:
             cursor = self.get_cursor()
             if not cursor:
-                print("❌ No cursor available.")
+                log_error("Cursor is None", source)
                 return None
 
             if params:
@@ -59,17 +60,18 @@ class Connection:
             else:
                 cursor.execute(query)
 
-            query_type = query.strip().split()[0].upper()
+            query_type = query.strip().split()[0].lower()
 
-            if query_type == "SELECT":
-                return cursor.fetchall()
-            elif query_type in ["INSERT", "UPDATE", "DELETE"]:
-                self.__conn.commit()
-                return True
+            if query_type == "select":
+                result = cursor.fetchall()
+                print("✅ SELECT query executed.")
+                return result
             else:
-                print("⚠️ Unsupported query type.")
-                return None
+                self.__conn.commit()
+                print("✅ Non-SELECT query executed and committed.")
+                return True  # UPDATE, INSERT, DELETE için True döner
 
         except Exception as e:
+            log_error(str(e), source)
             print(f"❌ Query error: {e}")
             return None

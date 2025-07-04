@@ -1,9 +1,10 @@
 from Modules.User import User
 from Modules.Staff import Staff
+from Modules.Member import Member
+from Modules.Connection import Connection
 
-staff = Staff()
 
-staff.login("staffuser", "staffpass")
+#staff.login("staffuser", "staffpass")
 
 
 #print(s.get_user_info().get("username"))
@@ -14,4 +15,12 @@ staff.login("staffuser", "staffpass")
 #current.create_new_member("newuser", "newpass",None, None)    
 
 
-staff.loan_to_user("1234567890", 4, 7)
+#staff.loan_to_user("1234567890", 4, 7)
+
+mem = Member() 
+mem.login("newuser2", "pass")
+print(mem.get_id())
+
+sta = Staff()
+sta.login("testuser2", "testpass2")
+print(sta.get_id())

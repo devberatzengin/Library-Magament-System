@@ -7,20 +7,19 @@ class User:
     def __init__(self):
         self.__username = None
         self.__password = None
-        self.__email = None
-        self.__phone_number = None
-    
+        self.user_id = None
+        
     def login(self, input_username, input_password):
         db = Connection()
         result = db.execute_query(
             "SELECT * FROM tblUser WHERE UserName = ? AND UserPassword = ?",
             (input_username, input_password)
         )
-        if result and len(result) > 0:
+        if result and len(result) > 0:  
             print("✅ Login successful.")
-            self.__username = result[0][1]
-            self.__password = result[0][2]
-            
+            self._User__username = result[0][1]
+            self._User__password = result[0][2]
+            self.user_id = result[0][0]  # ID'yi buraya al!
             return True
         else:
             print("❌ Invalid username or password.")
