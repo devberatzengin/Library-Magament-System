@@ -9,6 +9,19 @@ class User:
         self.__password = None
         self.user_id = None
         
+    def get_role(self):
+        db = Connection()
+        result = db.execute_query(
+            "SELECT UserRole FROM tblUser WHERE UserName = ?",
+            (self._User__username,)
+        )
+        if result:
+            return result[0][0]  # 0 → Member, 1 → Staff
+        else:
+            print(" Could not retrieve user role.")
+            return None
+
+        
     def login(self, input_username, input_password):
         db = Connection()
         result = db.execute_query(
@@ -16,13 +29,13 @@ class User:
             (input_username, input_password)
         )
         if result and len(result) > 0:  
-            print("✅ Login successful.")
+            print(" Login successful.")
             self._User__username = result[0][1]
             self._User__password = result[0][2]
             self.user_id = result[0][0]  # ID'yi buraya al!
             return True
         else:
-            print("❌ Invalid username or password.")
+            print(" Invalid username or password.")
             return False
 
     def register(self, input_username, input_password):
@@ -35,7 +48,7 @@ class User:
         )
 
         if existing and len(existing) > 0:
-            print("⚠️ Username already exists. Please choose another one.")
+            print(" Username already exists. Please choose another one.")
             return False
 
         # Insert new user if not exists
@@ -44,10 +57,10 @@ class User:
             (input_username, input_password)
         )
         if result is None:
-            print("✅ Registration successful.")
+            print(" Registration successful.")
             return True
         else:
-            print("❌ Registration failed.")
+            print(" Registration failed.")
             return False
 
     def get_details(self):
@@ -59,7 +72,7 @@ class User:
                 "phone_number": self.__phone_number
             }
         else:
-            print("❌ No user logged in.")
+            print(" No user logged in.")
             return None
 
     
