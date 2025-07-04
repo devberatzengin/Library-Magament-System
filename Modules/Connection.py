@@ -50,18 +50,26 @@ class Connection:
     def execute_query(self, query, params=None):
         try:
             cursor = self.get_cursor()
-            if cursor:
-                if params:
-                    cursor.execute(query, params)
-                else:
-                    cursor.execute(query)
+            if not cursor:
+                print("❌ No cursor available.")
+                return None
+
+            if params:
+                cursor.execute(query, params)
+            else:
+                cursor.execute(query)
+
+            query_type = query.strip().split()[0].upper()
+
+            if query_type == "SELECT":
+                return cursor.fetchall()
+            elif query_type in ["INSERT", "UPDATE", "DELETE"]:
                 self.__conn.commit()
-                print("✅ Query executed.")
-                try:
-                    return cursor.fetchall()
-                except:
-                    return None  # for queries that do not return results
+                return True
+            else:
+                print("⚠️ Unsupported query type.")
+                return None
+
         except Exception as e:
             print(f"❌ Query error: {e}")
             return None
-t

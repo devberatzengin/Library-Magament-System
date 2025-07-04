@@ -1,48 +1,17 @@
-from connection import Connection
+from Modules.User import User
+from Modules.Staff import Staff
 
-class User:
-    
-    def __init__(self, username, password,email, phone_number):
-        self.username = username
-        self.password = password
-        self.email = email
-        self.phone_number = phone_number
-    
-    def login(self, input_username, input_password):
-        
-        db = Connection()
-        result = db.execute_query(
-            "SELECT * FROM Users WHERE username = ? AND password = ?",
-            (input_username, input_password)
-        )
-        if result and len(result) > 0:
-            print("✅ Login successful.")
-            return True
-        else:
-            print("❌ Invalid username or password.")
-            return False
+staff = Staff()
 
-    def register(self, input_username, input_password):
-        
-        db = Connection()
-        # 1. Check if username already exists
-        existing = db.execute_query(
-            "SELECT * FROM Users WHERE username = ?",
-            (input_username,)
-        )
+staff.login("staffuser", "staffpass")
 
-        if existing and len(existing) > 0:
-            print("⚠️ Username already exists. Please choose another one.")
-            return False
 
-        # 2. Insert new user if not exists
-        result = db.execute_query(
-            "INSERT INTO Users (username, password) VALUES (?, ?)",
-            (input_username, input_password)
-        )
-        if result is None:
-            print("✅ Registration successful.")
-            return True
-        else:
-            print("❌ Registration failed.")
-            return False
+#print(s.get_user_info().get("username"))
+
+#current.add_new_book("New Book", "Author Name", "1234567891", 2023)
+#current.delete_book("1234567891")
+
+#current.create_new_member("newuser", "newpass",None, None)    
+
+
+staff.loan_to_user("1234567890", 4, 7)
