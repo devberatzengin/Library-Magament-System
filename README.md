@@ -1,4 +1,4 @@
-# Library-Magament-System# 📚 Library Management System
+📚 Library Management System
 
 A Python-based Library Management System that allows **staff and members** to interact with a SQL Server database through a command-line interface. Built with `pyodbc` and follows OOP design principles.
 
